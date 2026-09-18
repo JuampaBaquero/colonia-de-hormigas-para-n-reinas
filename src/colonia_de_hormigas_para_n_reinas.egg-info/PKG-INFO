@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: colonia-de-hormigas-para-n-reinas
+Version: 0.1.0
+Summary: Add your description here
+Requires-Python: >=3.14
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=2.5.3
+
+# colonia-de-hormigas-para-n-reinas
+Este pequeño proyecto busca darle solución al problema de las n reinas usando el algoritmo de la colonia de hormigas. Está hecho en python para facilidad de desarrollo

@@ -1,4 +1,4 @@
-from tins import Feromonas
+from Feromonas import Feromonas
 from conf import valores_iniciales
 import sys
 
