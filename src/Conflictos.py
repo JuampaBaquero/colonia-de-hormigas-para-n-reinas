@@ -9,10 +9,13 @@ class Conflictos:
          1  1 -1  1 -> Si la hormiga pone una reina acá, solo nos interesa modificar 
          1  1  1  1    las casillas afectadas hacia abajo, porque son las de las 
          2  0  1  1    hormigas que no han colocado reinas
+
+         -> POR IMPLEMENTAR
          
     """
 
     def __init__(self, N: int) -> None:
+        self.N = N
         self.matriz: np.ndarray = np.zeros((N, N))
 
     def reinear(self, pos: Coord) -> None:
@@ -22,18 +25,18 @@ class Conflictos:
 
     def conflictear(self, pos: Coord) -> None:
 
-        #solo la fila de la reina
-        for i in range(pos[0], len(self.matriz)):
-            if self.matriz[i][pos[1]] != -1:
-                self.matriz[i][pos[1]] += 1
+        #arange retorna un rango pero es un arreglo de numpy :b
+        i: np.ndarray = np.arange(self.N)[:, None]  # Columna
+        j: np.ndarray = np.arange(self.N)[None, :]  # Fila
 
-        for i in range(pos[1], len(self.matriz)):
-            if self.matriz[pos[0]][i] != -1:
-                self.matriz[pos[0]][i] += 1
+        mascara_columnas: np.ndarray        = (i == pos[0])
+        mascara_filas: np.ndarray           = (j == pos[1])
+        mascara_diagonal_princ: np.ndarray  = (i - j) == (pos[0] - pos[1])
+        mascara_diagonal_secun: np.ndarray  = (i + j) == (pos[0] + pos[1])
+        mascara_otras_reinas: np.ndarray    = (self.matriz != -1)
 
-        coso: int = 1
-        for i in range(len(self.matriz[pos[0]])):
-            if i > pos[0]:
-                self.matriz[pos[0] - coso][i] += 1
-                self.matriz[pos[0] + coso][i] += 1
-                coso += 1
+        mascara: np.ndarray = (mascara_columnas | mascara_filas | 
+                               mascara_diagonal_princ | mascara_diagonal_secun) & mascara_otras_reinas
+
+        #aplicamos...
+        self.matriz[mascara] += 1 
