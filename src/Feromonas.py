@@ -1,4 +1,5 @@
 import numpy as np
+from conf import Coord
 
 class Feromonas:
 
@@ -9,4 +10,6 @@ class Feromonas:
     def evaporar_feromonas(self) -> None:
         self.matriz = self.matriz * self.rho #fockin python
 
-    
+    def actualizar_escogidas(self, lista: list[Coord], factor: float) -> None:
+        for coord in lista:
+            self.matriz[coord] += factor

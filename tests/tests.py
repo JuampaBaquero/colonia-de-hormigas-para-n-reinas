@@ -13,18 +13,15 @@ class Pruebas(unittest.TestCase):
                                        [0, 0,  1, 0]])
 
     def test_hormigas_calcular_heuristica(self) -> None:
+        array_in: list[int] = [0, 1, 2, 3]
+        array_out: list[float] = [1, 0.5, 0.3333333, 0.25]
         conflictos: Conflictos = Conflictos(4)
         feromonas: Feromonas = Feromonas(4, rho=0.4)
                 
         hormiga: Hormiga = Hormiga(4, conflictos, feromonas)
 
-        heu_1: float = hormiga.heuristica(0)
-        heu_2: float = hormiga.heuristica(1)
-        heu_3: float = hormiga.heuristica(3)
-
-        self.assertAlmostEqual(heu_1, 1)
-        self.assertAlmostEqual(heu_2, 0.5)
-        self.assertAlmostEqual(heu_3, 0.25)
+        heu_test: np.ndarray = hormiga._Hormiga__heuristica(np.array(array_in)) # type: ignore
+        np.testing.assert_almost_equal(heu_test, np.array(array_out))
 
     def test_hormigas_prob_correcta(self) -> None:
         conflictos: Conflictos = Conflictos(4)
@@ -34,9 +31,9 @@ class Pruebas(unittest.TestCase):
 
         hormiga: Hormiga = Hormiga(4, conflictos, feromonas)
 
-        resulting = hormiga.calcular_mayor_prob(0)
+        posicion_resultado: tuple = hormiga._Hormiga__elegir_posicion_prob(0) #type: ignore
 
-        self.assertEqual(resulting, (0, 2))
+        self.assertIn(posicion_resultado, [(0, 1), (0, 2), (0, 3), (0, 4)])
 
     def test_poner_reinas(self) -> None:
         conflictos: Conflictos = Conflictos(4)
@@ -55,6 +52,26 @@ class Pruebas(unittest.TestCase):
         self.assertEqual(int(conflictos.matriz[1, 3]), -1)
         self.assertEqual(int(conflictos.matriz[2, 0]), -1)
         self.assertEqual(int(conflictos.matriz[3, 2]), -1)
+
+    def test_pillarse_conflictos_globales(self) -> None:
+        conflictos: Conflictos = Conflictos(4)
+        feromonas: Feromonas = Feromonas(4, rho=0.4, tau_0 = 0)        
+        hormiga: Hormiga = Hormiga(4, conflictos, feromonas)
+
+        hormiga.reinas.extend([(0, 0), (3, 0), (0, 3), (2, 2)])
+
+        """
+        Este caso es este:
+
+        * . . *
+        . . . .
+        . . * .
+        * . . .
+
+        Deberían haber 4 conflictos...
+        """
+        res: int = hormiga._Hormiga__conflictos_globales() # type: ignore
+        self.assertEqual(res, 4)
 
 if __name__ == '__main__':
     unittest.main()

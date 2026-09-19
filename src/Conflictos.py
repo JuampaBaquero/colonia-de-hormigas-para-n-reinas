@@ -22,6 +22,8 @@ class Conflictos:
         self.matriz[pos[0]][pos[1]] = -1 #-1 es reina
         self.conflictear(pos)
 
+    def reiniciar(self) -> None:
+        self.matriz[:, :] = 0
 
     def conflictear(self, pos: Coord) -> None:
 

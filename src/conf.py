@@ -1,5 +1,5 @@
-valores_iniciales: dict = {
-    'tau_0': 1,
+condiciones_feromonas: dict = {
+    'tau_0': 1.0,
     'rho': 0.4
 }
 
