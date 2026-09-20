@@ -51,9 +51,9 @@ class Hormiga:
 
                 difx: bool = (pos1[0] == pos2[0])
                 dify: bool = (pos1[1] == pos2[1])
-                diag_principal: bool = (pos1[0] - pos1[1] == pos2[0] - pos2[0])
-                diag_secundaria: bool = (pos1[0] + pos1[1] == pos2[0] + pos2[0])
-                if difx | dify | diag_principal | diag_secundaria:
+                diag_principal: bool = (pos1[0] - pos1[1] == pos2[0] - pos2[1])
+                diag_secundaria: bool = (pos1[0] + pos1[1] == pos2[0] + pos2[1])
+                if difx or dify or diag_principal or diag_secundaria:
                     conflictos_globales += 1
 
         return int(conflictos_globales / 2)
@@ -72,3 +72,7 @@ class Hormiga:
             self.reinas,
             self.__heuristica_ind(conflictos_globales)
         )
+
+    def resetiar(self) -> None:
+        self.conflictos.reiniciar()
+        self.reinas = []
