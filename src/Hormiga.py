@@ -5,8 +5,10 @@ from Feromonas import Feromonas
 
 class Hormiga:
 
-    def __init__(self, N: int, conflictos: Conflictos, feromonas: Feromonas) -> None: 
+    def __init__(self, N: int, conflictos: Conflictos, feromonas: Feromonas, alpha: float, beta: float) -> None: 
         self.N: int = N
+        self.alpha: float = alpha
+        self.beta: float = beta
         self.reinas: list[Coord] = []
         self.conflictos: Conflictos = conflictos
         self.feromonas: Feromonas = feromonas
@@ -22,12 +24,15 @@ class Hormiga:
         )
     def __vector_de_probabilidad(self, indice: int) -> np.ndarray:
 
+        col_escogidas: list[int] = [y for _, y in self.reinas]
+
         fila_conflictos: np.ndarray = self.conflictos.matriz[indice]
         fila_taus: np.ndarray = self.feromonas.matriz[indice]
 
         n_vector: np.ndarray = self.__heuristica(fila_conflictos)
-        factores: np.ndarray = n_vector * fila_taus
-
+        factores: np.ndarray = (n_vector ** self.alpha) * (fila_taus ** self.beta)
+        if col_escogidas:
+            factores[col_escogidas] = 0.0
         #Normalizando... 
         probabilidades: np.ndarray = factores / np.sum(factores)
 
@@ -35,9 +40,10 @@ class Hormiga:
         
 
     def __elegir_posicion_prob(self, indice: int) -> Coord:
+
         vector: np.ndarray = self.__vector_de_probabilidad(indice)
         col: int = np.random.choice(np.arange(self.N), p = vector)
-
+        col = np.random.choice(np.arange(self.N), p = vector)
         return(indice, col)
 
     def __conflictos_globales(self) -> int:
