@@ -25,7 +25,7 @@ class Pruebas(unittest.TestCase):
 
     def test_hormigas_prob_correcta(self) -> None:
         conflictos: Conflictos = Conflictos(4)
-        feromonas: Feromonas = Feromonas(4, rho = 0.4, tau_0 = 0)
+        feromonas: Feromonas = Feromonas(4, rho = 0.4, tau_min = 0)
 
         feromonas.matriz[0, 2] = 1
 
@@ -37,7 +37,7 @@ class Pruebas(unittest.TestCase):
 
     def test_poner_reinas(self) -> None:
         conflictos: Conflictos = Conflictos(4)
-        feromonas: Feromonas = Feromonas(4, rho=0.4, tau_0 = 0)
+        feromonas: Feromonas = Feromonas(4, rho=0.4, tau_min = 0)
         
         hormiga: Hormiga = Hormiga(4, conflictos, feromonas)
 
@@ -55,7 +55,7 @@ class Pruebas(unittest.TestCase):
 
     def test_pillarse_conflictos_globales(self) -> None:
         conflictos: Conflictos = Conflictos(4)
-        feromonas: Feromonas = Feromonas(4, rho=0.4, tau_0 = 0)        
+        feromonas: Feromonas = Feromonas(4, rho=0.4, tau_min = 0)        
         hormiga: Hormiga = Hormiga(4, conflictos, feromonas)
 
         hormiga.reinas.extend([(0, 0), (3, 0), (0, 3), (2, 2)])

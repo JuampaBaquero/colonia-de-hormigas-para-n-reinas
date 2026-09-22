@@ -1,0 +1,14 @@
+README.md
+pyproject.toml
+src/Conflictos.py
+src/Feromonas.py
+src/Hormiga.py
+src/__init__.py
+src/conf.py
+src/main.py
+src/colonia_de_hormigas_para_n_reinas.egg-info/PKG-INFO
+src/colonia_de_hormigas_para_n_reinas.egg-info/SOURCES.txt
+src/colonia_de_hormigas_para_n_reinas.egg-info/dependency_links.txt
+src/colonia_de_hormigas_para_n_reinas.egg-info/requires.txt
+src/colonia_de_hormigas_para_n_reinas.egg-info/top_level.txt
+tests/tests.py
