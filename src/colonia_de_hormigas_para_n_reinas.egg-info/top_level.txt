@@ -1,6 +1,0 @@
-Conflictos
-Feromonas
-Hormiga
-__init__
-conf
-main
