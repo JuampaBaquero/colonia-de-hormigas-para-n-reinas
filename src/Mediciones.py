@@ -1,4 +1,5 @@
 import time 
+import matplotlib.pyplot as plt
 from functools import wraps
 from typing import Any
 
