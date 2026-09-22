@@ -1,4 +1,4 @@
-from conf import Coord 
+from conf import Coord, macro_condiciones
 from Feromonas import Feromonas
 from Conflictos import Conflictos
 from Hormiga import Hormiga
@@ -6,13 +6,13 @@ from Mediciones import Mediciones
 
 class Ciclo:
 
-    def __init__(self, N: int, tau_0: float, rho: float) -> None:
+    def __init__(self, N: int, tau_min: float, rho: float, alpha: float, beta: float) -> None:
         self.N = N
-        self.tau_0 = tau_0
+        self.tau_min = tau_min
         self.rho = rho
         self.conflictos: Conflictos = Conflictos(N)
-        self.feromonas: Feromonas = Feromonas(N, rho, tau_0)
-        self.hormiga: Hormiga = Hormiga(N, self.conflictos, self.feromonas)
+        self.feromonas: Feromonas = Feromonas(N, rho, tau_min)
+        self.hormiga: Hormiga = Hormiga(N, self.conflictos, self.feromonas, alpha, beta)
 
     @Mediciones.medir_tiempo
     def ciclar(self, num_ciclos: int) -> tuple[bool, int, list[Coord]]:
@@ -47,7 +47,7 @@ class Ciclo:
         while True:
             self.feromonas.reset()
             i = 1
-            while i <= 10000:
+            while i <= macro_condiciones['micro_iteraciones']:
                 conf_globales = self.hormiga.poner_reinas()
 
                 if conf_globales == 0:
